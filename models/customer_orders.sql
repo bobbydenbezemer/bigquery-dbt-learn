@@ -13,7 +13,8 @@ with
         select
             order_id,
             max(created_at) as payment_finalized_date,
-            sum(amount) / 100.0 as total_amount_paid
+            sum({{cents_to_dollars('amount', 2)}}) as total_amount_paid
+            --sum(amount) / 100.0 as total_amount_paid
         from payments
         where status <> 'fail'
         group by 1
